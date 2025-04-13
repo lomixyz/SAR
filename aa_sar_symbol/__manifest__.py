@@ -2,10 +2,9 @@
     "name": "Saudi Riyal (SAR) Currency Symbol | SAR Symbol",
     "version": "17.0.1.0.0",
     "description": "Saudi Riyal (SAR) Currency New Symbol",
-    "summary": "SAR New Symbol",
+    "summary": "SAR Symbol",
     "author": "Allam Bushra",
     "website": "https://www.linkedin.com/in/lomixyz/",
-    "license": "OPL-1",
     "category": "Tools",
     "depends": ["base","web"],
     "data": [
