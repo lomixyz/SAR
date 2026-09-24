@@ -1,0 +1,82 @@
+// ---------------------------------------------------------------------------
+// Saudi Riyal symbol font
+// ---------------------------------------------------------------------------
+// The font only contains the riyal glyph, mapped to:
+//   U+20C1  SAUDI RIYAL SIGN (official Unicode 17 code point)
+//   U+E900  private-use code point used by version 1.x of this module
+// Thanks to `unicode-range`, browsers download and use it ONLY for those two
+// characters: every other character keeps the font chosen by Odoo / the theme.
+
+$sar-font-path: '../fonts/saudi_riyal_symbol';
+$sar-unicode-range: U+20C1, U+E900;
+
+@mixin sar-font-face($family, $weight, $style) {
+    @font-face {
+        font-family: $family;
+        src: url('#{$sar-font-path}.woff2') format('woff2'),
+             url('#{$sar-font-path}.woff') format('woff'),
+             url('#{$sar-font-path}.ttf') format('truetype');
+        font-weight: $weight;
+        font-style: $style;
+        font-display: swap;
+        unicode-range: $sar-unicode-range;
+    }
+}
+
+// Dedicated family, usable explicitly: font-family: 'Saudi Riyal Symbol', ...
+@include sar-font-face('Saudi Riyal Symbol', normal, normal);
+
+// Odoo inserts 'Odoo Unicode Support Noto' in every font stack of the backend,
+// website, portal and POS. Adding the riyal glyph to that family makes the
+// symbol render everywhere without changing any existing font.
+@each $weight in (100, 300, 400, 500, 600, 700, 900) {
+    @each $style in (normal, italic) {
+        @include sar-font-face('Odoo Unicode Support Noto', $weight, $style);
+    }
+}
+
+// Put the riyal font FIRST in the main font stacks, so no other installed font
+// (Windows/macOS system fonts, theme fonts...) can take over U+20C1.
+// Safe: the font only covers U+20C1 / U+E900 (unicode-range), all other
+// characters and the line metrics still come from the original fonts.
+@function sar-flatten($list) {
+    $-result: ();
+    @each $-item in $list {
+        @if type-of($-item) == 'list' {
+            $-result: join($-result, sar-flatten($-item), comma);
+        } @else {
+            $-result: append($-result, $-item, comma);
+        }
+    }
+    @return $-result;
+}
+
+@function sar-stack($stack) {
+    @return join(('Saudi Riyal Symbol',), sar-flatten($stack), comma);
+}
+
+@if variable-exists(font-family-sans-serif) and variable-exists(variable-prefix) and $font-family-sans-serif {
+    :root {
+        --#{$variable-prefix}font-sans-serif: #{inspect(sar-stack($font-family-sans-serif))};
+    }
+}
+@if variable-exists(headings-font-family) and $headings-font-family {
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: sar-stack($headings-font-family);
+    }
+}
+
+// Optional helper: <i class="icon-saudi_riyal"/> renders the symbol as an icon
+.icon-saudi_riyal {
+    font-family: 'Saudi Riyal Symbol' !important;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &::before {
+        content: "\20C1";
+        color: #2f704a;
+    }
+}

@@ -1,21 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <function name="write" model="ir.model.data">
-        <function name="search" model="ir.model.data">
-            <value
-                eval="[('module', '=', 'base'), ('name', '=', 'SAR')]" />
-        </function>
-        <value eval="{'noupdate': False}" />
+    <!-- New Saudi Riyal sign (Unicode U+20C1), displayed before the amount -->
+    <function model="res.currency" name="write">
+        <value eval="[ref('base.SAR')]"/>
+        <value eval="{'symbol': '⃁', 'position': 'before'}"/>
     </function>
-    <record id="base.SAR" model="res.currency">
-        <field name="symbol"></field>
-        <field name="position">before</field>
-    </record>
-    <function name="write" model="ir.model.data">
-        <function name="search" model="ir.model.data">
-            <value
-                eval="[('module', '=', 'base'), ('name', '=', 'SAR')]" />
-        </function>
-        <value eval="{'noupdate': True}" />
-    </function>
+
 </odoo>
