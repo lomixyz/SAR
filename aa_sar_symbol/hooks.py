@@ -1,6 +1,7 @@
 def post_init_hook(env):
-    """Regenerate the company report styles so the riyal font is used in PDFs."""
-    env['res.company'].search([], limit=1)._update_asset_style()
+    """Invalidate the cached report style assets so the riyal font is used in PDFs
+    right away, instead of waiting for a company font/color field to change."""
+    env.transaction.invalidate_ormcache('assets')
 
 
 def uninstall_hook(env):

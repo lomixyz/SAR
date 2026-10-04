@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!-- Company report layouts: prepend the riyal font to the chosen layout font -->
+    <!-- Company report layouts: prepend the riyal font to the chosen layout font.
+         Odoo 20 outputs the font name with t-out (not t-esc as in earlier versions). -->
     <template id="styles_company_report" inherit_id="web.styles_company_report">
-        <xpath expr="//t[@t-esc='font']" position="attributes">
-            <attribute name="t-esc">'Saudi Riyal Symbol, ' + font</attribute>
+        <xpath expr="//t[@t-out='font']" position="attributes">
+            <attribute name="t-out">'Saudi Riyal Symbol, ' + font</attribute>
         </xpath>
     </template>
 

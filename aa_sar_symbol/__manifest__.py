@@ -1,6 +1,6 @@
 {
     "name": "Saudi Riyal (SAR) Currency Symbol | SAR Symbol",
-    "version": "17.0.2.0.1",
+    "version": "20.0.2.0.5",
     "summary": "Show the new Saudi Riyal sign in Odoo: backend, website, "
                "portal, POS and PDF reports",
     "description": """
@@ -16,6 +16,14 @@ Saudi Riyal sign (Unicode U+20C1) everywhere amounts are displayed.
 * Backend, website, customer portal, Point of Sale and PDF reports
   (every company layout font: Lato, Roboto, Open Sans, Tajawal, ...).
 * Uninstalling restores the default "SR" symbol.
+
+UPDATE (2.0.2): the riyal sign still failed to render in printed/PDF
+reports (shown as a placeholder character) even after switching the PDF
+font to truetype in 2.0.1 - wkhtmltopdf was not reliably fetching the font
+file via url(path) at all during report generation. The PDF report font is
+now embedded directly in the stylesheet as a data URI (it is only ~1 KB),
+removing that file-fetch step entirely. Screen display (backend, website,
+portal, POS) is unaffected.
 """,
     "author": "Allam Bushra",
     "maintainer": "Allam Bushra",

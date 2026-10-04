@@ -2,6 +2,28 @@
 // or the company layout font). The riyal font is placed first in the stack;
 // it only holds the riyal glyph, so every other character falls back to the
 // report font unchanged.
+//
+// PDF reports are rendered by wkhtmltopdf. Its bundled engine does not
+// reliably fetch @font-face files referenced by url(path) during report
+// generation (confirmed: switching the referenced file from woff2 to ttf
+// made no difference - the glyph still failed to render), which leaves the
+// riyal glyph with no usable font in the PDF even though the exact same
+// @font-face works fine on screen (backend, website, POS). Embedding the
+// font directly as a base64 data URI removes that file-fetch step entirely,
+// which is the standard, reliable fix for this: the font is only ~1 KB, so
+// the data URI stays tiny. This re-declaration, scoped to this report
+// bundle only, overrides - because it is declared after the file-based
+// version from sar_symbol.scss within this same bundle - the font used for
+// PDF/report rendering, without changing anything for the backend/frontend
+// /POS, which keep using the smaller woff2/woff files as normal web assets.
+@font-face {
+    font-family: 'Saudi Riyal Symbol';
+    src: url('data:font/truetype;charset=utf-8;base64,AAEAAAAMAIAAAwBAR0RFRgAPAAIAAAPEAAAAFE9TLzJ23FsXAAABSAAAAFZjbWFwsVBY3gAAAagAAAA8Z2FzcP//AAMAAAO8AAAACGdseWYkuNoaAAAB7AAAAJxoZWFkLnA7SwAAAMwAAAA2aGhlYQhPBQwAAAEEAAAAJGhtdHgIjQC8AAABoAAAAAhsb2NhAE4AAAAAAeQAAAAGbWF4cABGADUAAAEoAAAAIG5hbWUQ8Sn5AAACiAAAAQBwb3N0I1nZVQAAA4gAAAAyAAEAAAACAAB0szMVXw889QALBAAAAAAA4+k7wgAAAADm2rruALwAFgPRA4gAAAAIAAIAAAAAAAAAAQAAA8D/wAAABI0AvAC8A9EAAQAAAAAAAAAAAAAAAAAAAAIAAQAAAAIAMgACAAAAAAACAAAAAQABAAAAQAAAAAAAAAABA4QBkAAFAAgCmQLMAAAAjwKZAswAAAHrADMBCQAAAgAFAwAAAAAAAAAAAAAQAAAAAAAAAAAAAABQZkVkAEAgwekAA8D/wAAAA8AAQAAAAAEAAAAAAAAEAAAABI0AvAAAAAIAAAADAAAAFAADAAEAAAAUAAQAKAAAAAYABAABAAIgwekA//8AACDB6QD//99AFwEAAQAAAAAAAAAAAAAATgAAAAIAvAAWA9EDiAAHADEAACUGBxUlNjc1JzY3NQc1NzY3NQcRBgcjEQcRBgcHEQcGBxU3FQcGBxUlNjc3NjUxNTcVAqcVBgEqFQYbFQbozRUG6DYmAV02JgHPFgXq+xUGAQchEzAIXXsuNQJALjUBWi41ATFfKy41AjEBVR8v/uUUAaseLwH+jywuNQExdzUvNQE4BxtIDA5pFL4AAAAABgBOAAMAAQQJAAEAJAAAAAMAAQQJAAIADgAkAAMAAQQJAAMASgAyAAMAAQQJAAQAJAAAAAMAAQQJAAUAFgB8AAMAAQQJAAYAIACSAFMAYQB1AGQAaQAgAFIAaQB5AGEAbAAgAFMAeQBtAGIAbwBsAFIAZQBnAHUAbABhAHIAQQBsAGwAYQBtAEIAdQBzAGgAcgBhADoAIABTAGEAdQBkAGkAIABSAGkAeQBhAGwAIABTAHkAbQBiAG8AbAA6ACAAMgAwADIANgBWAGUAcgBzAGkAbwBuACAAMgAuADAAUwBhAHUAZABpAFIAaQB5AGEAbABTAHkAbQBiAG8AbAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAECC3NhdWRpX3JpeWFsAAAAAAAB//8AAgABAAAADAAAAAAAAAABAAEAAQAB') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+20C1, U+E900;
+}
+
 body {
     font-family: 'Saudi Riyal Symbol', 'Lato', sans-serif;
 }
