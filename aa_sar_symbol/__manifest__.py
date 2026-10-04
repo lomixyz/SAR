@@ -1,6 +1,6 @@
 {
     "name": "Saudi Riyal (SAR) Currency Symbol | SAR Symbol",
-    "version": "17.0.2.0.1",
+    "version": "17.0.2.0.2",
     "summary": "Show the new Saudi Riyal sign in Odoo: backend, website, "
                "portal, POS and PDF reports",
     "description": """
